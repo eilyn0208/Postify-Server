@@ -9,7 +9,9 @@ from sqlmodel import select
 
 from app.db.session import get_session
 from app.models.user import User
+from app.models.post import Post
 from app.schemas.user import UserCreate, UserRead
+from app.schemas.post import PostRead
 
 
 
@@ -20,6 +22,15 @@ router = APIRouter(prefix="/users", tags=["users"])
 async def get_users(session: AsyncSession = Depends(get_session)):
     result = await session.execute(select(User))
     return result.scalars().all()
+
+@router.get("/{user_id}/posts", response_model=List[PostRead])
+async def get_posts_by_user(
+        user_id: uuid.UUID,
+        session: AsyncSession = Depends(get_session),
+):
+    result = await session.execute(select(Post).where(Post.user_id == user_id))
+    return result.scalars().all()
+
 
 @router.post('/', response_model=UserCreate, status_code=201)
 async def create_user(data: UserCreate, session: AsyncSession = Depends(get_session)):
