@@ -1,8 +1,7 @@
 
 from app.db.session import engine
 from sqlmodel import SQLModel
-from app.models.user import User
-from app.models.post import Post
+from app.models import User, Post, Comment, Like, Image
 
 async def init_db():
     async with engine.begin() as conn:

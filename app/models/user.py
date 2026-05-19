@@ -21,3 +21,6 @@ class User(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     posts: List["Post"] = Relationship(back_populates="user")
+    comments: List["Comment"] = Relationship(back_populates="user")
+    likes: List["Like"] = Relationship(back_populates="user")
+    #no se agg images al User, porque en este diseño las imágenes pertenecen al Post, no directamente al usuario
