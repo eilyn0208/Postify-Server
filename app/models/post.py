@@ -14,3 +14,6 @@ class Post(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
     user: "User" = Relationship(back_populates="posts")
+    comments: list["Comment"] = Relationship(back_populates="post")
+    likes: list["Like"] = Relationship(back_populates="post")
+    images: list["Image"] = Relationship(back_populates="post")
